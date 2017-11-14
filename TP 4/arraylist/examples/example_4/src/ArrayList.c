@@ -92,7 +92,7 @@ int al_add(ArrayList* this, void* pElement)
         }
         if(flag==0)
         {
-            this->pElements[this->size]=pElement;
+            *(this->pElements+this->size) = pElement;
             this->size++;
             returnAux=0;
         }
@@ -154,7 +154,7 @@ void* al_get(ArrayList* this, int index)
 
     if(this!=NULL && index>=0 && index<al_len(this))
     {
-        returnAux=this->pElements[index];
+        returnAux= *(this->pElements+index);
     }
 
     return returnAux;
@@ -179,7 +179,7 @@ int al_contains(ArrayList* this, void* pElement)
     {
         for(i=0; i<al_len(this); i++)
         {
-            if(this->pElements[i]==pElement)
+            if(*(this->pElements+i)==pElement)
             {
                 returnAux = 1;
                 flag=1;
@@ -222,7 +222,7 @@ int al_set(ArrayList* this, int index,void* pElement)
         }
         else
         {
-            this->pElements[index]=pElement;
+            *(this->pElements+index)=pElement;
             returnAux = 0;
         }
     }
@@ -344,7 +344,7 @@ int al_indexOf(ArrayList* this, void* pElement)
     {
         for (i=0; i<al_len(this); i++)
         {
-            if(this->pElements[i]==pElement)
+            if(*(this->pElements+i)==pElement)
             {
                 returnAux=i;
                 break;
@@ -449,7 +449,7 @@ int al_containsAll(ArrayList* this,ArrayList* this2)
     {
         for(i=0; i<al_len(this2); i++)
         {
-            if(!(al_contains(this,this2->pElements[i])))
+            if(!(al_contains(this,*(this2->pElements+i))))
             {
                 returnAux=0;
                 break;
@@ -484,7 +484,7 @@ int al_sort(ArrayList* this, int (*pFunc)(void*,void*), int order)
         {
             for(j=i+1; j<al_len(this); j++)
             {
-                switch(pFunc(this->pElements[i],this->pElements[j]))
+                switch(pFunc(*(this->pElements+i),*(this->pElements+j)))
                 {
                 case -1:
                     if(order==1)
@@ -493,9 +493,9 @@ int al_sort(ArrayList* this, int (*pFunc)(void*,void*), int order)
                     }
                     else
                     {
-                        auxiliar=this->pElements[j];
-                        this->pElements[j]=this->pElements[i];
-                        this->pElements[i]=auxiliar;
+                        auxiliar=(*(this->pElements+j));
+                        (*(this->pElements+j))=(*(this->pElements+i));
+                        (*(this->pElements+i))=auxiliar;
                     }
                     break;
 
@@ -513,9 +513,9 @@ int al_sort(ArrayList* this, int (*pFunc)(void*,void*), int order)
                 case 1:
                     if(order==1)
                     {
-                        auxiliar=this->pElements[j];
-                        this->pElements[j]=this->pElements[i];
-                        this->pElements[i]=auxiliar;
+                        auxiliar=(*(this->pElements+j));
+                        (*(this->pElements+j))=(*(this->pElements+i));
+                        (*(this->pElements+i))=auxiliar;
                     }
                     else
                     {
